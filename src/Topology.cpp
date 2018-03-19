@@ -27,7 +27,7 @@ void Topology::reserve(size_t size) {
     atoms_.reserve(size);
 }
 
-void Topology::add_bond(size_t atom_i, size_t atom_j) {
+void Topology::add_bond(size_t atom_i, size_t atom_j, Bond::Type bond_t) {
     if (atom_i >= size() || atom_j >= size()) {
         throw out_of_bounds(
             "out of bounds atomic index in `Topology::add_bond`: "
@@ -35,7 +35,7 @@ void Topology::add_bond(size_t atom_i, size_t atom_j) {
             size(), atom_i, atom_j
         );
     }
-    connect_.add_bond(atom_i, atom_j);
+    connect_.add_bond(atom_i, atom_j, bond_t);
 }
 
 void Topology::remove_bond(size_t atom_i, size_t atom_j) {

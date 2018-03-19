@@ -73,6 +73,8 @@ endif()
 
 add_subdirectory(external)
 
+include("SetupSmilesParser")
+
 # We need to use a separated library for non-dll-exported classes that have an
 # unit test. The chemfiles_objects OBJECT library contains the code for files
 # implementation and is linked into both the main chemfiles library and the
@@ -92,6 +94,7 @@ endif()
 
 set(CHEMFILES_OBJECTS
     $<TARGET_OBJECTS:chemfiles_objects>
+    $<TARGET_OBJECTS:lexer_parser_objs>
     $<TARGET_OBJECTS:molfiles>
     $<TARGET_OBJECTS:fmt::object>
     $<TARGET_OBJECTS:tng_io>

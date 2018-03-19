@@ -110,9 +110,10 @@ public:
     ///
     /// @param atom_i the index of the first atom in the bond
     /// @param atom_j the index of the second atom in the bond
+    /// @param bond_t the bond type (IE single, double, triple, etc)
     /// @throws OutOfBounds if `atom_i` or `atom_j` are greater than `size()`
     /// @throws Error if `atom_i == atom_j`, as this is an invalid bond
-    void add_bond(size_t atom_i, size_t atom_j);
+    void add_bond(size_t atom_i, size_t atom_j, Bond::Type bond_t = Bond::UNDEFINED);
 
     /// Remove a bond in the system, between the atoms at index `atom_i` and
     /// `atom_j`.

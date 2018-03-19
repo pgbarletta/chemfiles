@@ -6,13 +6,14 @@
 
 using namespace chemfiles;
 
-Bond::Bond(size_t i, size_t j) {
+Bond::Bond(size_t i, size_t j, Bond::Type t) {
     if (i == j) {
         throw error("can not have a bond between an atom and itself");
     }
 
     data_[0] = std::min(i, j);
     data_[1] = std::max(i, j);
+    type_ = t;
 }
 
 size_t Bond::operator[](size_t i) const {
@@ -178,9 +179,9 @@ const sorted_set<Improper>& Connectivity::impropers() const {
     return impropers_;
 }
 
-void Connectivity::add_bond(size_t i, size_t j) {
+void Connectivity::add_bond(size_t i, size_t j, Bond::Type t) {
     uptodate_ = false;
-    bonds_.emplace(i, j);
+    bonds_.emplace(i, j, t);
     if (i > biggest_atom_) {biggest_atom_ = i;}
     if (j > biggest_atom_) {biggest_atom_ = j;}
 }
@@ -214,6 +215,6 @@ void Connectivity::atom_removed(size_t index) {
     }
 
     for (auto bond: to_add) {
-        this->add_bond(bond[0], bond[1]);
+        this->add_bond(bond[0], bond[1], bond.type());
     }
 }

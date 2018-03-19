@@ -19,10 +19,24 @@ namespace chemfiles {
 /// @example{tests/doc/connectivity/bond.cpp}
 class CHFL_EXPORT Bond final {
 public:
-    /// Create a new `Bond` containing the atoms `i` and `j`.
+
+    /// The type of bond held by this type.
+    enum Type {
+        UNDEFINED = 0,
+        SINGLE,
+        DOUBLE,
+        TRIPLE,
+        DOWN,
+        UP,
+        DATIVER,
+        DATIVEL,
+        AROMATIC,
+    };
+
+    /// Create a new `Bond` containing the atoms `i` and `j` with type `t`.
     ///
     /// @throw Error if `i == j`
-    Bond(size_t i, size_t j);
+    Bond(size_t i, size_t j, Type t = UNDEFINED);
 
     ~Bond() = default;
     Bond(Bond&&) = default;
@@ -35,8 +49,13 @@ public:
     /// @throws OutOfBounds if `i` is not 0 or 1
     size_t operator[](size_t i) const;
 
+    /// Get the bond type.
+    Type type() const {
+        return type_;
+    }
 private:
     std::array<size_t, 2> data_;
+    Type type_;
 
     friend bool operator==(const Bond& lhs, const Bond& rhs);
     friend bool operator!=(const Bond& lhs, const Bond& rhs);
@@ -293,8 +312,8 @@ public:
     /// Get the impropers in this connectivity
     const sorted_set<Improper>& impropers() const;
 
-    /// Add a bond between the atoms `i` and `j`
-    void add_bond(size_t i, size_t j);
+    /// Add a bond between the atoms `i` and `j` with type t.
+    void add_bond(size_t i, size_t j, Bond::Type t = Bond::UNDEFINED);
 
     /// Remove any bond between the atoms `i` and `j`
     void remove_bond(size_t i, size_t j);
