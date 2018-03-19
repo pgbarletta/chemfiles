@@ -44,3 +44,7 @@ set_source_files_properties( ${FLEX_OUTPUT_FILES} ${BISON_OUTPUT_FILES} PROPERTI
   "-Wno-old-style-cast -Wno-sign-conversion -Wno-conversion -Wno-sign-compare -Wno-unused-function" )
 
 target_include_directories(lexer_parser_objs SYSTEM BEFORE PRIVATE ${EXTERNAL_INCLUDES})
+
+if(${BUILD_SHARED_LIBS})
+    set_target_properties(lexer_parser_objs PROPERTIES POSITION_INDEPENDENT_CODE TRUE)
+endif()
