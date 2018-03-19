@@ -1,11 +1,11 @@
-find_package(BISON)
-find_package(FLEX)
+find_package(BISON 3.0)
+find_package(FLEX 2.5)
 
 if(MSVC)
 add_definitions("/D YY_NO_UNISTD_H")
 endif()
 
-if(FLEX_EXECUTABLE)
+if(FLEX_FOUND)
   flex_target(SmilesL ${PROJECT_SOURCE_DIR}/scripts/smiles.ll
               ${CMAKE_CURRENT_BINARY_DIR}/include/lex.yysmiles.cpp
              COMPILE_FLAGS "-Pyysmiles_" )
@@ -16,7 +16,7 @@ else()
   FILE(GLOB FLEX_OUTPUT_FILES "${CMAKE_CURRENT_BINARY_DIR}/include/lex.*.cpp")
 endif()
 
-if(BISON_EXECUTABLE)
+if(BISON_FOUND)
   bison_target(SmilesY ${PROJECT_SOURCE_DIR}/scripts/smiles.yy
                ${CMAKE_CURRENT_BINARY_DIR}/include/smiles.tab.cpp
                COMPILE_FLAGS "-pyysmiles_" )
