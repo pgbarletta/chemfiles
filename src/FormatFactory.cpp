@@ -54,10 +54,8 @@ FormatFactory::FormatFactory() {
     this->add_format<Molfile<LAMMPS>>();
     this->add_format<Molfile<MOLDEN>>();
 
-    // The MMTF format does not work well with asm.js
-    #ifndef __EMSCRIPTEN__
-        this->add_format<MMTFFormat>();
-    #endif
+    // MMTF Format
+    this->add_format<MMTFFormat>();
 }
 
 FormatFactory& FormatFactory::get() {
