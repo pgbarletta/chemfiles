@@ -54,16 +54,16 @@ static Context get_context(const std::string& string, std::string& selection) {
 static unsigned max_variable(Context context) {
     switch (context) {
     case Context::ATOM:
-        return 1;
+        return 0;
     case Context::PAIR:
     case Context::BOND:
-        return 2;
+        return 1;
     case Context::ANGLE:
     case Context::THREE:
-        return 3;
+        return 2;
     case Context::DIHEDRAL:
     case Context::FOUR:
-        return 4;
+        return 3;
     }
     unreachable();
 }
@@ -72,11 +72,10 @@ Selection::~Selection() = default;
 Selection::Selection(Selection&&) = default;
 Selection& Selection::operator=(Selection&&) = default;
 
-Selection::Selection(const std::string& selection)
-    : selection_(selection), ast_(nullptr) {
+Selection::Selection(std::string selection): selection_(std::move(selection)), ast_(nullptr) {
     std::string selection_string;
-    context_ = get_context(selection, selection_string);
-    auto tokens = selections::tokenize(selection_string);
+    context_ = get_context(selection_, selection_string);
+    auto tokens = selections::Tokenizer(selection_string).tokenize();
     for (auto& token: tokens) {
         if (token.type() == selections::Token::VARIABLE) {
             if (token.variable() > max_variable(context_)) {
