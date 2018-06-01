@@ -6,7 +6,6 @@
 #include "chemfiles/utils.hpp"
 #include "chemfiles/files/MMTFFile.hpp"
 
-#include "chemfiles/external/portable_endian.h"
 #include <mmtf.hpp>
 
 using namespace chemfiles;
