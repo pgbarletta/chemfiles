@@ -173,7 +173,7 @@ list(APPEND EXTERNAL_INCLUDES ${CMAKE_CURRENT_BINARY_DIR}/molfiles/include)
 #       webpdbplugin
 
 # ==========
-# mmtf-cpp format: https://github.com/rcsb/mmtf-c
+# mmtf-cpp format: https://github.com/rcsb/mmtf-cpp
 # ==========
 unpack_library(mmtf-cpp)
 list(APPEND EXTERNAL_INCLUDES ${CMAKE_CURRENT_BINARY_DIR}/mmtf-cpp/include )

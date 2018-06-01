@@ -46,7 +46,8 @@ void MMTFFormat::read_step(const size_t step, Frame& frame) {
         while(chainIndex_ != chainsPerModel) {
             size_t groupsPerChain = static_cast<size_t>(file_->groupsPerChain[chainIndex_]);
             while(groupIndex_ != groupsPerChain) {
-                auto group = file_->groupList[file_->groupTypeList[groupIndex_]];
+                size_t groupType = static_cast<size_t>(file_->groupTypeList[groupIndex_]);
+                mmtf::GroupType group = file_->groupList[groupType];
                 size_t atomCount = static_cast<size_t>(group.atomNameList.size());
                 atomIndex_ += atomCount;
                 ++groupIndex_;
@@ -81,7 +82,8 @@ void MMTFFormat::read(Frame& frame) {
 
         // A group is like a residue or other molecule in a PDB file.
         for (size_t k = 0; k < chainGroupCount; k++) {
-            mmtf::GroupType group = file_->groupList[file_->groupTypeList[groupIndex_]];
+            size_t groupType = static_cast<size_t>(file_->groupTypeList[groupIndex_]);
+            mmtf::GroupType group = file_->groupList[groupType];
 
             size_t groupId = static_cast<size_t>(file_->groupIdList[groupIndex_]);
             Residue res(group.groupName, groupId);
@@ -90,7 +92,7 @@ void MMTFFormat::read(Frame& frame) {
             // Save the offset before we go changing it
             size_t atomOffset = atomIndex_ - atomSkip_;
 
-            size_t groupSize = static_cast<size_t>(group.atomNameList.size());
+            size_t groupSize = group.atomNameList.size();
             for (size_t l = 0; l < groupSize; l++) {
                 auto atom = Atom(group.atomNameList[l]);
                 atom.set_type(group.elementList[l]);
